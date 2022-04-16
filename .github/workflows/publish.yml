@@ -26,30 +26,42 @@ jobs:
           !.next/.env.*
         key: ${{ runner.os }}-dendronv2-${{ hashFiles('**/yarn.lock', '**/package-lock.json') }}
 
-    # we don't want to use lockfile since we want latest version of the cli to be used
-    - name: Install dependencies but don't read lockfile
-      run: yarn 
+    # - name: Install dependencies 
+    #   run: yarn 
 
-    - name: Upgrade dendron-cli if applicable
-      run: yarn add @dendronhq/dendron-cli@latest
 
-    - name: Restore Next cache
-      uses: actions/cache@v2
-      with:
-        path: .next/.next/cache
-        # Generate a new cache whenever packages or source files change.
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('.next/yarn.lock', '.next/package-lock.json') }}-${{ hashFiles('.next/**.[jt]s', '.next/**.[jt]sx') }}
+    - name: Check for new cli version
+      run: "yarn outdated @dendronhq/dendron-cli | grep Wanted"
 
-    - name: Initialize or pull nextjs template
-      run: "(test -d .next) && (echo 'updating dendron next...' && cd .next && git reset --hard && git pull && yarn && cd ..) || (echo 'init dendron next' && git clone https://github.com/dendronhq/nextjs-template.git .next && cd .next  && git checkout origin/dev --track && yarn && cd ..)"
+    # grep will have exit code 0 if match
+    - name: Bond2
+      run: "cli is outdated"
+      if: ${{ success() }}
 
-    - name: Export notes
-      run: yarn dendron publish export --target github --yes
+    - name: Bond1
+      run: "cli is not outdated"
+      if: ${{ failure() }}
 
-    - name: Deploy site
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: pages
-        publish_dir: docs/
-        force_orphan: true
+    # - name: Upgrade dendron-cli if applicable
+    #   run: yarn add @dendronhq/dendron-cli@latest
+
+    # - name: Restore Next cache
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: .next/.next/cache
+    #     # Generate a new cache whenever packages or source files change.
+    #     key: ${{ runner.os }}-nextjs-${{ hashFiles('.next/yarn.lock', '.next/package-lock.json') }}-${{ hashFiles('.next/**.[jt]s', '.next/**.[jt]sx') }}
+
+    # - name: Initialize or pull nextjs template
+    #   run: "(test -d .next) && (echo 'updating dendron next...' && cd .next && git reset --hard && git pull && yarn && cd ..) || (echo 'init dendron next' && git clone https://github.com/dendronhq/nextjs-template.git .next && cd .next  && git checkout origin/dev --track && yarn && cd ..)"
+
+    # - name: Export notes
+    #   run: yarn dendron publish export --target github --yes
+
+    # - name: Deploy site
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_branch: pages
+    #     publish_dir: docs/
+    #     force_orphan: true
