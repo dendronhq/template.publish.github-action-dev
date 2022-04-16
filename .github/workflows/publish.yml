@@ -2,9 +2,9 @@ name: Build Dendron Static Site
 
 on:
   workflow_dispatch: # Enables on-demand/manual triggering
-  push:
-    branches:
-    - main
+  # push:
+  #   branches:
+  #   - main
 
 jobs:
   build:
@@ -26,8 +26,12 @@ jobs:
           !.next/.env.*
         key: ${{ runner.os }}-dendronv2-${{ hashFiles('**/yarn.lock', '**/package-lock.json') }}
 
-    - name: Install dependencies
-      run: yarn
+    # we don't want to use lockfile since we want latest version of the cli to be used
+    - name: Install dependencies but don't read lockfile
+      run: yarn 
+
+    - name: Upgrade dendron-cli if applicable
+      run: yarn add @dendronhq/dendron-cli@latest
 
     - name: Restore Next cache
       uses: actions/cache@v2
@@ -49,4 +53,3 @@ jobs:
         publish_branch: pages
         publish_dir: docs/
         force_orphan: true
-        #cname: example.com
