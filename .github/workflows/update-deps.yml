@@ -3,15 +3,19 @@ name: Update packages
 on:
   workflow_dispatch: # Enables on-demand/manual triggering
 jobs:
-  build:
+  package-update:
     runs-on: ubuntu-latest
     steps:
-    - name: check for updates in dendron-cli 
+    - uses: actions/checkout@master
+    - name: set remote url
+      run: git remote set-url --push origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+    - name: package-update
       uses: taichi/actions-package-update@master
       env:
         AUTHOR_EMAIL: bot@dendron.so
         AUTHOR_NAME: dendron-bot
         EXECUTE: "true"
-        UPDATE_COMMAND: yarn
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LOG_LEVEL: debug
       with:
         args: -u --packageFile package.json --filter "dendron-cli"
