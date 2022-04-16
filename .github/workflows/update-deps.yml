@@ -1,0 +1,17 @@
+name: Update packages
+
+on:
+  workflow_dispatch: # Enables on-demand/manual triggering
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: check for updates in dendron-cli 
+      uses: taichi/actions-package-update@master
+      env:
+        AUTHOR_EMAIL: bot@dendron.so
+        AUTHOR_NAME: dendron-bot
+        EXECUTE: "true"
+        UPDATE_COMMAND: yarn
+      with:
+        args: -u --packageFile package.json --filter "dendron-cli"
