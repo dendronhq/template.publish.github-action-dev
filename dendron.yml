@@ -61,10 +61,16 @@ workspace:
             L: low
         todoIntegration: false
         createTaskSelectionType: selection2link
+        taskCompleteStatus:
+            - done
+            - x
     enableUserTags: true
     enableHashTags: true
-    dendronVersion: 0.84.0
+    dendronVersion: 0.97.0
     enableEditorDecorations: true
+    enableHandlebarTemplates: false
+    enableFullHierarchyNoteTitle: false
+    templateHierarchy: template
 preview:
     enableFMTitle: true
     enableNoteTitleForLink: true
@@ -75,7 +81,7 @@ preview:
     enableFrontmatterTags: true
     enableHashesForFMTags: false
 publishing:
-    theme: custom
+    theme: dark
     enableFMTitle: true
     enableNoteTitleForLink: true
     enableMermaid: true
@@ -87,7 +93,7 @@ publishing:
         - root
     enableSiteLastModified: true
     siteRootDir: docs
-    siteUrl: 'https://dendronhq.github.io'
+    siteUrl: https://dendronhq.github.io
     enableFrontmatterTags: true
     enableHashesForFMTags: false
     enableRandomlyColoredTags: true
@@ -105,3 +111,4 @@ publishing:
         editBranch: main
         editViewMode: tree
     enablePrettyLinks: true
+    enableTaskNotes: true

@@ -2,7 +2,7 @@
 id: wn8PE1RhG0znK1alrGFYv
 title: Root
 desc: ''
-updated: 1652802790531
+updated: 1654014922870
 created: 1631901573363
 ---
 # Welcome to Dendron
@@ -12,7 +12,6 @@ created: 1631901573363
 This is the root of your dendron vault. If you decide to publish your entire vault, this will be your landing page. You are free to customize any part of this page except the frontmatter on top. 
 
 Last updated: 
-- version: v0.95
-- date: 2022-05-17
-- hash: f2411b5
+- version: v0.97
+- date: 2022.05.31
 
